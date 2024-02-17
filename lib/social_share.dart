@@ -69,21 +69,21 @@ class SocialShare {
     }
 
     Map<String, dynamic> args = <String, dynamic>{
-      "stickerImage": _imagePath,
+      "backgroundImage": _imagePath,
       "backgroundTopColor": backgroundTopColor,
       "backgroundBottomColor": backgroundBottomColor,
       "attributionURL": attributionURL,
       "appId": appId
     };
 
-    if (_backgroundResourcePath != null) {
-      var extension = _backgroundResourcePath.split(".").last;
-      if (["png", "jpg", "jpeg"].contains(extension.toLowerCase())) {
-        args["backgroundImage"] = _backgroundResourcePath;
-      } else {
-        args["backgroundVideo"] = _backgroundResourcePath;
-      }
-    }
+    // if (_backgroundResourcePath != null) {
+    //   var extension = _backgroundResourcePath.split(".").last;
+    //   if (["png", "jpg", "jpeg"].contains(extension.toLowerCase())) {
+    //     args["backgroundImage"] = _backgroundResourcePath;
+    //   } else {
+    //     args["backgroundVideo"] = _backgroundResourcePath;
+    //   }
+    // }
 
     final String? response = await _channel.invokeMethod(platform, args);
     return response;
