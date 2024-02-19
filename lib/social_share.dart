@@ -77,10 +77,16 @@ class SocialShare {
       "backgroundTopColor": backgroundTopColor,
       "backgroundBottomColor": backgroundBottomColor,
       "attributionURL": attributionURL,
-      "stickerImage": _stickerImagePath,
-      "backgroundVideo": backgroundVideoPath,
       "appId": appId
     };
+
+    if (_stickerImagePath != null) {
+      args["stickerImage"] = _stickerImagePath;
+    }
+
+    if (backgroundVideoPath != null) {
+      args["backgroundVideo"] = backgroundVideoPath;
+    }
 
     final String? response = await _channel.invokeMethod(platform, args);
     return response;
