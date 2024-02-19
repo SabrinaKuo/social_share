@@ -102,7 +102,7 @@ class SocialSharePlugin:FlutterPlugin, MethodCallHandler, ActivityAware {
                 intent.putExtra("top_background_color", backgroundTopColor)
             }
 
-            if (bottom_background_color!=null) {
+            if (backgroundBottomColor!=null) {
                 intent.putExtra("bottom_background_color", backgroundBottomColor)
             }
             
