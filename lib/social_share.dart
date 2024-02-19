@@ -63,7 +63,7 @@ class SocialShare {
     if (Platform.isAndroid) {
       var backgroundImageFilename = _imagePath!.split("/").last;
       await reSaveImage(imagePath, backgroundImageFilename);
-      imagePath = backgroundImageFilename;
+      _imagePath = backgroundImageFilename;
 
       if (_stickerImagePath != null) {
         var stickerFilename = _stickerImagePath.split('/').last;
