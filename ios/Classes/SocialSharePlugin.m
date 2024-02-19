@@ -42,13 +42,13 @@
             appId = [dict objectForKey:@"FacebookAppID"];
         }
         
-        NSData *imgShare;
-        if ( [fileManager fileExistsAtPath: stickerImage]) {
-           imgShare = [[NSData alloc] initWithContentsOfFile:stickerImage];
+        NSData *imgBackgroundShare;
+        if ([fileManager fileExistsAtPath: backgroundImage]) {
+            imgBackgroundShare = [[NSData alloc] initWithContentsOfFile:backgroundImage];
         }
         
         // Assign background image asset and attribution link URL to pasteboard
-        NSMutableDictionary *pasteboardItems = [[NSMutableDictionary alloc]initWithDictionary: @{[NSString stringWithFormat:@"%@.stickerImage",destination] : imgShare}];
+        NSMutableDictionary *pasteboardItems = [[NSMutableDictionary alloc]initWithDictionary: @{[NSString stringWithFormat:@"%@.backgroundImage",destination] : imgBackgroundShare}];
         
         if (![backgroundTopColor isKindOfClass:[NSNull class]]) {
             [pasteboardItems setObject:backgroundTopColor forKey:[NSString stringWithFormat:@"%@.backgroundTopColor",destination]];
@@ -67,10 +67,17 @@
         }
         
         //if you have a background image
-        NSData *imgBackgroundShare;
-        if ([fileManager fileExistsAtPath: backgroundImage]) {
-            imgBackgroundShare = [[NSData alloc] initWithContentsOfFile:backgroundImage];
-            [pasteboardItems setObject:imgBackgroundShare forKey:[NSString stringWithFormat:@"%@.backgroundImage",destination]];
+        // NSData *imgBackgroundShare;
+        // if ([fileManager fileExistsAtPath: backgroundImage]) {
+        //     imgBackgroundShare = [[NSData alloc] initWithContentsOfFile:backgroundImage];
+        //     [pasteboardItems setObject:imgBackgroundShare forKey:[NSString stringWithFormat:@"%@.backgroundImage",destination]];
+        // }
+
+        //if you have a sticker image
+        NSData *imgShare;
+        if ( [fileManager fileExistsAtPath: stickerImage]) {
+           imgShare = [[NSData alloc] initWithContentsOfFile:stickerImage];
+           [pasteboardItems setObject:imgShare forKey:[NSString stringWithFormat:@"%@.stickerImage",destination]];
         }
         //if you have a background video
         NSData *videoBackgroundShare;
