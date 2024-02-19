@@ -12,18 +12,19 @@ class SocialShare {
     required String imagePath,
     String? backgroundTopColor,
     String? backgroundBottomColor,
-    String? backgroundResourcePath,
+    String? backgroundVideoPath,
     String? attributionURL,
+    String? stickerImagePath,
   }) async {
     return shareMetaStory(
-      appId: appId,
-      platform: "shareInstagramStory",
-      imagePath: imagePath,
-      backgroundTopColor: backgroundTopColor,
-      backgroundBottomColor: backgroundBottomColor,
-      attributionURL: attributionURL,
-      backgroundResourcePath: backgroundResourcePath,
-    );
+        appId: appId,
+        platform: "shareInstagramStory",
+        imagePath: imagePath,
+        backgroundTopColor: backgroundTopColor,
+        backgroundBottomColor: backgroundBottomColor,
+        attributionURL: attributionURL,
+        backgroundVideoPath: backgroundVideoPath,
+        stickerImagePath: stickerImagePath);
   }
 
   static Future<String?> shareFacebookStory({
@@ -31,18 +32,19 @@ class SocialShare {
     String? imagePath,
     String? backgroundTopColor,
     String? backgroundBottomColor,
-    String? backgroundResourcePath,
+    String? backgroundVideoPath,
     String? attributionURL,
+    String? stickerImagePath,
   }) async {
     return shareMetaStory(
-      appId: appId,
-      platform: "shareFacebookStory",
-      imagePath: imagePath,
-      backgroundTopColor: backgroundTopColor,
-      backgroundBottomColor: backgroundBottomColor,
-      attributionURL: attributionURL,
-      backgroundResourcePath: backgroundResourcePath,
-    );
+        appId: appId,
+        platform: "shareFacebookStory",
+        imagePath: imagePath,
+        backgroundTopColor: backgroundTopColor,
+        backgroundBottomColor: backgroundBottomColor,
+        attributionURL: attributionURL,
+        backgroundVideoPath: backgroundVideoPath,
+        stickerImagePath: stickerImagePath);
   }
 
   static Future<String?> shareMetaStory({
@@ -52,19 +54,21 @@ class SocialShare {
     String? backgroundTopColor,
     String? backgroundBottomColor,
     String? attributionURL,
-    String? backgroundResourcePath,
+    String? backgroundVideoPath,
+    String? stickerImagePath,
   }) async {
+    var _stickerImagePath = stickerImagePath;
     var _imagePath = imagePath;
-    var _backgroundResourcePath = backgroundResourcePath;
 
     if (Platform.isAndroid) {
-      var stickerFilename = "stickerAsset.png";
-      await reSaveImage(imagePath, stickerFilename);
-      _imagePath = stickerFilename;
-      if (backgroundResourcePath != null) {
-        var backgroundImageFilename = backgroundResourcePath.split("/").last;
-        await reSaveImage(backgroundResourcePath, backgroundImageFilename);
-        _backgroundResourcePath = backgroundImageFilename;
+      var backgroundImageFilename = _imagePath!.split("/").last;
+      await reSaveImage(imagePath, backgroundImageFilename);
+      imagePath = backgroundImageFilename;
+
+      if (_stickerImagePath != null) {
+        var stickerFilename = _stickerImagePath.split('/').last;
+        await reSaveImage(stickerImagePath, stickerFilename);
+        _stickerImagePath = stickerFilename;
       }
     }
 
@@ -73,17 +77,10 @@ class SocialShare {
       "backgroundTopColor": backgroundTopColor,
       "backgroundBottomColor": backgroundBottomColor,
       "attributionURL": attributionURL,
+      "stickerImage": _stickerImagePath,
+      "backgroundVideo": backgroundVideoPath,
       "appId": appId
     };
-
-    // if (_backgroundResourcePath != null) {
-    //   var extension = _backgroundResourcePath.split(".").last;
-    //   if (["png", "jpg", "jpeg"].contains(extension.toLowerCase())) {
-    //     args["backgroundImage"] = _backgroundResourcePath;
-    //   } else {
-    //     args["backgroundVideo"] = _backgroundResourcePath;
-    //   }
-    // }
 
     final String? response = await _channel.invokeMethod(platform, args);
     return response;
